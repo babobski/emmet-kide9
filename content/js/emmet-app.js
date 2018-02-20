@@ -10115,14 +10115,6 @@ emmet.define('cssResolver', function(require, _) {
 			'Defines a symbol that should be placed at the end of CSS property  ' 
 			+ 'when expanding CSS abbreviations in SASS dialect.');
 	
-	prefs.define('css.autoInsertVendorPrefixes', true,
-			'Automatically generate vendor-prefixed copies of expanded CSS ' 
-			+ 'property. By default, Emmet will generate vendor-prefixed '
-			+ 'properties only when you put dash before abbreviation ' 
-			+ '(e.g. <code>-bxsh</code>). With this option enabled, you don’t ' 
-			+ 'need dashes before abbreviations: Emmet will produce ' 
-			+ 'vendor-prefixed properties for you.');
-	
 	var descTemplate = _.template('A comma-separated list of CSS properties that may have ' 
 		+ '<code><%= vendor %></code> vendor prefix. This list is used to generate '
 		+ 'a list of prefixed properties when expanding <code>-property</code> '
@@ -10137,18 +10129,18 @@ emmet.define('cssResolver', function(require, _) {
 			+ 'For example, to add <em>foo</em> property and remove <em>border-radius</em> one, '
 			+ 'the preference value will look like this: <code>foo, -border-radius</code>.');
 	
-	// properties list is created from cssFeatures.html file
-	var props = {
-		'webkit': 'animation, animation-delay, animation-direction, animation-duration, animation-fill-mode, animation-iteration-count, animation-name, animation-play-state, animation-timing-function, appearance, backface-visibility, background-clip, background-composite, background-origin, background-size, border-fit, border-horizontal-spacing, border-image, border-vertical-spacing, box-align, box-direction, box-flex, box-flex-group, box-lines, box-ordinal-group, box-orient, box-pack, box-reflect, box-shadow, color-correction, column-break-after, column-break-before, column-break-inside, column-count, column-gap, column-rule-color, column-rule-style, column-rule-width, column-span, column-width, dashboard-region, font-smoothing, highlight, hyphenate-character, hyphenate-limit-after, hyphenate-limit-before, hyphens, line-box-contain, line-break, line-clamp, locale, margin-before-collapse, margin-after-collapse, marquee-direction, marquee-increment, marquee-repetition, marquee-style, mask-attachment, mask-box-image, mask-box-image-outset, mask-box-image-repeat, mask-box-image-slice, mask-box-image-source, mask-box-image-width, mask-clip, mask-composite, mask-image, mask-origin, mask-position, mask-repeat, mask-size, nbsp-mode, perspective, perspective-origin, rtl-ordering, text-combine, text-decorations-in-effect, text-emphasis-color, text-emphasis-position, text-emphasis-style, text-fill-color, text-orientation, text-security, text-stroke-color, text-stroke-width, transform, transition, transform-origin, transform-style, transition-delay, transition-duration, transition-property, transition-timing-function, user-drag, user-modify, user-select, writing-mode, svg-shadow, box-sizing, border-radius',
-		'moz': 'animation-delay, animation-direction, animation-duration, animation-fill-mode, animation-iteration-count, animation-name, animation-play-state, animation-timing-function, appearance, backface-visibility, background-inline-policy, binding, border-bottom-colors, border-image, border-left-colors, border-right-colors, border-top-colors, box-align, box-direction, box-flex, box-ordinal-group, box-orient, box-pack, box-shadow, box-sizing, column-count, column-gap, column-rule-color, column-rule-style, column-rule-width, column-width, float-edge, font-feature-settings, font-language-override, force-broken-image-icon, hyphens, image-region, orient, outline-radius-bottomleft, outline-radius-bottomright, outline-radius-topleft, outline-radius-topright, perspective, perspective-origin, stack-sizing, tab-size, text-blink, text-decoration-color, text-decoration-line, text-decoration-style, text-size-adjust, transform, transform-origin, transform-style, transition, transition-delay, transition-duration, transition-property, transition-timing-function, user-focus, user-input, user-modify, user-select, window-shadow, background-clip, border-radius',
-		'ms': 'accelerator, backface-visibility, background-position-x, background-position-y, behavior, block-progression, box-align, box-direction, box-flex, box-line-progression, box-lines, box-ordinal-group, box-orient, box-pack, content-zoom-boundary, content-zoom-boundary-max, content-zoom-boundary-min, content-zoom-chaining, content-zoom-snap, content-zoom-snap-points, content-zoom-snap-type, content-zooming, filter, flow-from, flow-into, font-feature-settings, grid-column, grid-column-align, grid-column-span, grid-columns, grid-layer, grid-row, grid-row-align, grid-row-span, grid-rows, high-contrast-adjust, hyphenate-limit-chars, hyphenate-limit-lines, hyphenate-limit-zone, hyphens, ime-mode, interpolation-mode, layout-flow, layout-grid, layout-grid-char, layout-grid-line, layout-grid-mode, layout-grid-type, line-break, overflow-style, perspective, perspective-origin, perspective-origin-x, perspective-origin-y, scroll-boundary, scroll-boundary-bottom, scroll-boundary-left, scroll-boundary-right, scroll-boundary-top, scroll-chaining, scroll-rails, scroll-snap-points-x, scroll-snap-points-y, scroll-snap-type, scroll-snap-x, scroll-snap-y, scrollbar-arrow-color, scrollbar-base-color, scrollbar-darkshadow-color, scrollbar-face-color, scrollbar-highlight-color, scrollbar-shadow-color, scrollbar-track-color, text-align-last, text-autospace, text-justify, text-kashida-space, text-overflow, text-size-adjust, text-underline-position, touch-action, transform, transform-origin, transform-origin-x, transform-origin-y, transform-origin-z, transform-style, transition, transition-delay, transition-duration, transition-property, transition-timing-function, user-select, word-break, word-wrap, wrap-flow, wrap-margin, wrap-through, writing-mode',
-		'o': 'dashboard-region, animation, animation-delay, animation-direction, animation-duration, animation-fill-mode, animation-iteration-count, animation-name, animation-play-state, animation-timing-function, border-image, link, link-source, object-fit, object-position, tab-size, table-baseline, transform, transform-origin, transition, transition-delay, transition-duration, transition-property, transition-timing-function, accesskey, input-format, input-required, marquee-dir, marquee-loop, marquee-speed, marquee-style'
-	};
-	
-	_.each(props, function(v, k) {
-		prefs.define('css.' + k + 'Properties', v, descTemplate({vendor: k}));
-		prefs.define('css.' + k + 'PropertiesAddon', '', descAddonTemplate({vendor: k}));
-	});
+	//// properties list is created from cssFeatures.html file
+	//var props = {
+	//	'webkit': 'animation, animation-delay, animation-direction, animation-duration, animation-fill-mode, animation-iteration-count, animation-name, animation-play-state, animation-timing-function, appearance, backface-visibility, background-clip, background-composite, background-origin, background-size, border-fit, border-horizontal-spacing, border-image, border-vertical-spacing, box-align, box-direction, box-flex, box-flex-group, box-lines, box-ordinal-group, box-orient, box-pack, box-reflect, box-shadow, color-correction, column-break-after, column-break-before, column-break-inside, column-count, column-gap, column-rule-color, column-rule-style, column-rule-width, column-span, column-width, dashboard-region, font-smoothing, highlight, hyphenate-character, hyphenate-limit-after, hyphenate-limit-before, hyphens, line-box-contain, line-break, line-clamp, locale, margin-before-collapse, margin-after-collapse, marquee-direction, marquee-increment, marquee-repetition, marquee-style, mask-attachment, mask-box-image, mask-box-image-outset, mask-box-image-repeat, mask-box-image-slice, mask-box-image-source, mask-box-image-width, mask-clip, mask-composite, mask-image, mask-origin, mask-position, mask-repeat, mask-size, nbsp-mode, perspective, perspective-origin, rtl-ordering, text-combine, text-decorations-in-effect, text-emphasis-color, text-emphasis-position, text-emphasis-style, text-fill-color, text-orientation, text-security, text-stroke-color, text-stroke-width, transform, transition, transform-origin, transform-style, transition-delay, transition-duration, transition-property, transition-timing-function, user-drag, user-modify, user-select, writing-mode, svg-shadow, box-sizing, border-radius',
+	//	'moz': 'animation-delay, animation-direction, animation-duration, animation-fill-mode, animation-iteration-count, animation-name, animation-play-state, animation-timing-function, appearance, backface-visibility, background-inline-policy, binding, border-bottom-colors, border-image, border-left-colors, border-right-colors, border-top-colors, box-align, box-direction, box-flex, box-ordinal-group, box-orient, box-pack, box-shadow, box-sizing, column-count, column-gap, column-rule-color, column-rule-style, column-rule-width, column-width, float-edge, font-feature-settings, font-language-override, force-broken-image-icon, hyphens, image-region, orient, outline-radius-bottomleft, outline-radius-bottomright, outline-radius-topleft, outline-radius-topright, perspective, perspective-origin, stack-sizing, tab-size, text-blink, text-decoration-color, text-decoration-line, text-decoration-style, text-size-adjust, transform, transform-origin, transform-style, transition, transition-delay, transition-duration, transition-property, transition-timing-function, user-focus, user-input, user-modify, user-select, window-shadow, background-clip, border-radius',
+	//	'ms': 'accelerator, backface-visibility, background-position-x, background-position-y, behavior, block-progression, box-align, box-direction, box-flex, box-line-progression, box-lines, box-ordinal-group, box-orient, box-pack, content-zoom-boundary, content-zoom-boundary-max, content-zoom-boundary-min, content-zoom-chaining, content-zoom-snap, content-zoom-snap-points, content-zoom-snap-type, content-zooming, filter, flow-from, flow-into, font-feature-settings, grid-column, grid-column-align, grid-column-span, grid-columns, grid-layer, grid-row, grid-row-align, grid-row-span, grid-rows, high-contrast-adjust, hyphenate-limit-chars, hyphenate-limit-lines, hyphenate-limit-zone, hyphens, ime-mode, interpolation-mode, layout-flow, layout-grid, layout-grid-char, layout-grid-line, layout-grid-mode, layout-grid-type, line-break, overflow-style, perspective, perspective-origin, perspective-origin-x, perspective-origin-y, scroll-boundary, scroll-boundary-bottom, scroll-boundary-left, scroll-boundary-right, scroll-boundary-top, scroll-chaining, scroll-rails, scroll-snap-points-x, scroll-snap-points-y, scroll-snap-type, scroll-snap-x, scroll-snap-y, scrollbar-arrow-color, scrollbar-base-color, scrollbar-darkshadow-color, scrollbar-face-color, scrollbar-highlight-color, scrollbar-shadow-color, scrollbar-track-color, text-align-last, text-autospace, text-justify, text-kashida-space, text-overflow, text-size-adjust, text-underline-position, touch-action, transform, transform-origin, transform-origin-x, transform-origin-y, transform-origin-z, transform-style, transition, transition-delay, transition-duration, transition-property, transition-timing-function, user-select, word-break, word-wrap, wrap-flow, wrap-margin, wrap-through, writing-mode',
+	//	'o': 'dashboard-region, animation, animation-delay, animation-direction, animation-duration, animation-fill-mode, animation-iteration-count, animation-name, animation-play-state, animation-timing-function, border-image, link, link-source, object-fit, object-position, tab-size, table-baseline, transform, transform-origin, transition, transition-delay, transition-duration, transition-property, transition-timing-function, accesskey, input-format, input-required, marquee-dir, marquee-loop, marquee-speed, marquee-style'
+	//};
+	//
+	//_.each(props, function(v, k) {
+	//	prefs.define('css.' + k + 'Properties', v, descTemplate({vendor: k}));
+	//	prefs.define('css.' + k + 'PropertiesAddon', '', descAddonTemplate({vendor: k}));
+	//});
 	
 	prefs.define('css.unitlessProperties', 'z-index, line-height, opacity, font-weight, zoom', 
 			'The list of properties whose values ​​must not contain units.');
@@ -10189,10 +10181,6 @@ emmet.define('cssResolver', function(require, _) {
 			'The minium score (from 0 to 1) that fuzzy-matched abbreviation should ' 
 			+ 'achive. Lower values may produce many false-positive matches, '
 			+ 'higher values may reduce possible matches.');
-	
-	prefs.define('css.alignVendor', false, 
-			'If set to <code>true</code>, all generated vendor-prefixed properties ' 
-			+ 'will be aligned by real property name.');
 	
 	
 	function isNumeric(ch) {
@@ -10432,27 +10420,6 @@ emmet.define('cssResolver', function(require, _) {
 		
 		return list;
 	}
-	
-	
-	// TODO refactor, this looks awkward now
-	addPrefix('w', {
-		prefix: 'webkit'
-	});
-	addPrefix('m', {
-		prefix: 'moz'
-	});
-	addPrefix('s', {
-		prefix: 'ms'
-	});
-	addPrefix('o', {
-		prefix: 'o'
-	});
-	
-	// I think nobody uses it
-//	addPrefix('k', {
-//		prefix: 'khtml',
-//		obsolete: true
-//	});
 	
 	var cssSyntaxes = ['css', 'less', 'sass', 'scss', 'stylus'];
 	
@@ -10735,7 +10702,6 @@ emmet.define('cssResolver', function(require, _) {
 		expand: function(abbr, value, syntax) {
 			syntax = syntax || 'css';
 			var resources = require('resources');
-			var autoInsertPrefixes = prefs.get('css.autoInsertVendorPrefixes');
 			
 			// check if snippet should be transformed to !important
 			var isImportant;
@@ -10745,7 +10711,7 @@ emmet.define('cssResolver', function(require, _) {
 			
 			// check if we have abbreviated resource
 			var snippet = resources.findSnippet(syntax, abbr);
-			if (snippet && !autoInsertPrefixes) {
+			if (snippet) {
 				return transformSnippet(snippet, isImportant, syntax);
 			}
 			
@@ -10785,31 +10751,9 @@ emmet.define('cssResolver', function(require, _) {
 			
 			snippetObj.value = value || snippetObj.value;
 			
-			var prefixes = abbrData.prefixes == 'all' || (!abbrData.prefixes && autoInsertPrefixes) 
-				? findPrefixes(snippetObj.name, autoInsertPrefixes && abbrData.prefixes != 'all')
-				: abbrData.prefixes;
-				
-				
-			var names = [], propName;
-			_.each(prefixes, function(p) {
-				if (p in vendorPrefixes) {
-					propName = vendorPrefixes[p].transformName(snippetObj.name);
-					names.push(propName);
-					result.push(transformSnippet(propName + ':' + snippetObj.value,
-							isImportant, syntax));
-				}
-			});
-			
 			// put the original property
 			result.push(transformSnippet(snippetObj.name + ':' + snippetObj.value, isImportant, syntax));
-			names.push(snippetObj.name);
-			
-			if (prefs.get('css.alignVendor')) {
-				var pads = require('utils').getStringsPads(names);
-				result = _.map(result, function(prop, i) {
-					return pads[i] + prop;
-				});
-			}
+			//names.push(snippetObj.name);
 			
 			return result;
 		},
@@ -10882,12 +10826,6 @@ emmet.define('cssGradient', function(require, _) {
 	// XXX define preferences
 	/** @type preferences */
 	var prefs = require('preferences');
-	prefs.define('css.gradient.prefixes', 'webkit, moz, o',
-			'A comma-separated list of vendor-prefixes for which values should ' 
-			+ 'be generated.');
-	
-	prefs.define('css.gradient.oldWebkit', true,
-			'Generate gradient definition for old Webkit implementations');
 	
 	prefs.define('css.gradient.omitDefaultDirection', true,
 		'Do not output default direction definition in generated gradients.');
@@ -11106,26 +11044,7 @@ emmet.define('cssGradient', function(require, _) {
 			});
 		}
 		
-		_.each(prefs.getArray('css.gradient.prefixes'), function(prefix) {
-			var name = css.prefixed(propertyName, prefix);
-			if (prefix == 'webkit' && prefs.get('css.gradient.oldWebkit')) {
-				try {
-					props.push({
-						name: name,
-						value: module.oldWebkitLinearGradient(gradient)
-					});
-				} catch(e) {}
-			}
-			
-			props.push({
-				name: name,
-				value: module.toString(gradient, prefix)
-			});
-		});
-		
-		return props.sort(function(a, b) {
-			return b.name.length - a.name.length;
-		});
+		return props;
 	}
 	
 	/**
@@ -11139,41 +11058,11 @@ emmet.define('cssGradient', function(require, _) {
 	function pasteGradient(property, gradient, valueRange) {
 		var rule = property.parent;
 		var utils = require('utils');
-		var alignVendor = require('preferences').get('css.alignVendor');
 		
 		// we may have aligned gradient definitions: find the smallest value
 		// separator
 		var sep = property.styleSeparator;
 		var before = property.styleBefore;
-		
-		// first, remove all properties within CSS rule with the same name and
-		// gradient definition
-		_.each(rule.getAll(getPrefixedNames(property.name())), function(item) {
-			if (item != property && /gradient/i.test(item.value())) {
-				if (item.styleSeparator.length < sep.length) {
-					sep = item.styleSeparator;
-				}
-				if (item.styleBefore.length < before.length) {
-					before = item.styleBefore;
-				}
-				rule.remove(item);
-			}
-		});
-		
-		if (alignVendor) {
-			// update prefix
-			if (before != property.styleBefore) {
-				var fullRange = property.fullRange();
-				rule._updateSource(before, fullRange.start, fullRange.start + property.styleBefore.length);
-				property.styleBefore = before;
-			}
-			
-			// update separator value
-			if (sep != property.styleSeparator) {
-				rule._updateSource(sep, property.nameRange().end, property.valueRange().start);
-				property.styleSeparator = sep;
-			}
-		}
 		
 		var value = property.value();
 		if (!valueRange)
@@ -11277,14 +11166,14 @@ emmet.define('cssGradient', function(require, _) {
 			var sep = css.getSyntaxPreference('valueSeparator', syntax);
 			var end = css.getSyntaxPreference('propertyEnd', syntax);
 			
-			if (require('preferences').get('css.alignVendor')) {
-				var pads = require('utils').getStringsPads(_.map(props, function(prop) {
-					return prop.value.substring(0, prop.value.indexOf('('));
-				}));
-				_.each(props, function(prop, i) {
-					prop.value = pads[i] + prop.value;
-				});
-			}
+			//if (require('preferences').get('css.alignVendor')) {
+			//	var pads = require('utils').getStringsPads(_.map(props, function(prop) {
+			//		return prop.value.substring(0, prop.value.indexOf('('));
+			//	}));
+			//	_.each(props, function(prop, i) {
+			//		prop.value = pads[i] + prop.value;
+			//	});
+			//}
 			
 			props = _.map(props, function(item) {
 				return item.name + sep + item.value + end;
@@ -11398,21 +11287,6 @@ emmet.define('cssGradient', function(require, _) {
 		var val = function(v) {
 			return utils.replaceSubstring(value, v, g.valueRange);
 		};
-		
-		// reflect value for properties with the same name
-		_.each(property.parent.getAll(getPrefixedNames(property.name())), function(prop) {
-			if (prop === property)
-				return;
-			
-			// check if property value starts with gradient definition
-			var m = prop.value().match(/^\s*(\-([a-z]+)\-)?linear\-gradient/);
-			if (m) {
-				prop.value(val(module.toString(g.gradient, m[2] || '')));
-			} else if (m = prop.value().match(/\s*\-webkit\-gradient/)) {
-				// old webkit gradient definition
-				prop.value(val(module.oldWebkitLinearGradient(g.gradient)));
-			}
-		});
 		
 		return true;
 	});
